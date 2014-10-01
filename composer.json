@@ -1,0 +1,21 @@
+{
+    "name": "bgillet/slim-modules",
+    "description": "Additional classes to help making modules based Slim apps like in Phalcon framework.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Benjamin GILLET",
+            "email": "bgillet@hotmail.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "bgillet/slim-utils": "*",
+        "bgillet/slim-twig": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "BenGee\\": "src/BenGee/"
+        }
+    }
+}
