@@ -104,7 +104,7 @@ abstract class Module
         $this->_app = $app;
         if (empty($name) || !is_string($name)) throw new \ErrorException("Module's name cannot be null or empty !");
         $this->_name = $name;
-        $slimModulesDir = $this->config('slim.dir.modules');
+        $slimModulesDir = $app->config('slim.dir.modules');
         // Append module's templates path to the renderer if it is Twig
         if ($app->view instanceof \BenGee\Slim\Twig\TwigView) 
         {
