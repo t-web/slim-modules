@@ -5,7 +5,7 @@
  *
  * @author Benjamin GILLET <bgillet@hotmail.fr>
  * @package \BenGee\Slim\Modules
- * @version 1.0.1
+ * @version 1.0.0
  *
  * MIT LICENSE
  *
@@ -36,8 +36,7 @@ namespace BenGee\Slim\Modules;
  * It overrides default Slim's constructor to add new initialization steps.
  * @package BenGee\Slim\Modules
  * @author Benjamin GILLET <bgillet@hotmail.fr>
- * @version 1.0.1
- * @since 1.0.0
+ * @version 1.0.0
  */
 class SlimMod extends \Slim\Slim
 {
@@ -50,7 +49,6 @@ class SlimMod extends \Slim\Slim
         parent::__construct($userSettings);
         
         $slimRootDir = $this->config('slim.dir.root');
-        $slimModulesDir = $this->config('slim.dir.modules');
         
         // Reference a default folder where to look for templates first.
         if ($app->view instanceof \BenGee\Slim\TwigView)
@@ -81,8 +79,8 @@ class SlimMod extends \Slim\Slim
         foreach($slimModules as $moduleName => $moduleClass)
         {
           // Load the defined module's class file.
-          require_once $slimModulesDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'module.php';
-          // Reference module inside the application in the 'module' named array under the module's name as key.
+          require_once $slimRootDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'module.php';
+          // Reference module inside app in the 'module' named array under the module's name as key.
           $module = new $moduleClass($app, $moduleName, (trim($moduleName) == 'default' ? true : false));
           $app->$modules[$moduleName] = $module;
         }

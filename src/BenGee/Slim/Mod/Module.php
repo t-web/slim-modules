@@ -5,7 +5,7 @@
  *
  * @author Benjamin GILLET <bgillet@hotmail.fr>
  * @package \BenGee\Slim\Modules
- * @version 1.0.1
+ * @version 1.0.0
  *
  * MIT LICENSE
  *
@@ -36,8 +36,7 @@ namespace BenGee\Slim\Modules;
  * Any module in modules base Slim apps must inherit this class.
  * @package BenGee\Slim\Modules
  * @author Benjamin GILLET <bgillet@hotmail.fr>
- * @version 1.0.1
- * @since 1.0.0
+ * @version 1.0.0
  */
 abstract class Module
 {
@@ -104,11 +103,10 @@ abstract class Module
         $this->_app = $app;
         if (empty($name) || !is_string($name)) throw new \ErrorException("Module's name cannot be null or empty !");
         $this->_name = $name;
-        $slimModulesDir = $this->config('slim.dir.modules');
         // Append module's templates path to the renderer if it is Twig
         if ($app->view instanceof \BenGee\Slim\Twig\TwigView) 
         {
-            $app->view->addTemplatesDirectory($slimModulesDir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'views', $name);
+            $app->view->addTemplatesDirectory(__SLIM_MODULES_DIR__ . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'views', $name);
         }
         // Register module's hooks
         $this->registerHooks();
@@ -128,15 +126,14 @@ abstract class Module
         $route = '/' . ($this->isDefault() ? '(' . $route . ')' : $route);
         $app->get($route, function ($ctrl = 'index', $action = 'index', $params = null) use($app, $module)
         {
-            $slimModulesDir = $this->config('slim.dir.modules');
             // Set templates directory to the module's one if current view renderer is not Twig.
             if (!($app->view instanceof \BenGee\Slim\Twig\TwigView))
             {
-                $app->view->setTemplatesDirectory($slimModulesDir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'views', $name);
+                $app->view->setTemplatesDirectory(__SLIM_MODULES_DIR__ . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'views', $name);
             }
             // Load controller class file.
             $ctrl_name = (!empty($ctrl) && trim($ctrl) != '' ? \BenGee\Slim\Utils\StringUtils::camelize($ctrl, true) : 'Index') . 'Controller';
-            require_once($slimModulesDir . DIRECTORY_SEPARATOR .$module->name() . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $ctrl_name . '.php');
+            require_once(__SLIM_MODULES_DIR__ . DIRECTORY_SEPARATOR .$module->name() . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $ctrl_name . '.php');
             // Create an instance of the controller.
             $ctrl_instance = new $ctrl_name($module);
             // Call required action.

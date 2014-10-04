@@ -5,7 +5,7 @@
  *
  * @author Benjamin GILLET <bgillet@hotmail.fr>
  * @package \BenGee\Slim\Modules
- * @version 1.0.1
+ * @version 1.0.0
  *
  * MIT LICENSE
  *
@@ -37,8 +37,7 @@ namespace BenGee\Slim\Modules;
  * Any controller in modules based Slim apps must inherit this class.
  * @package BenGee\Slim\Modules
  * @author Benjamin GILLET <bgillet@hotmail.fr>
- * @version 1.0.1
- * @since 1.0.0
+ * @version 1.0.0
  */
 abstract class Controller 
 {
