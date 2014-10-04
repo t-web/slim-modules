@@ -53,13 +53,13 @@ class SlimMod extends \Slim\Slim
         $slimModulesDir = $this->config('slim.dir.modules');
         
         // Reference a default folder where to look for templates first.
-        if ($app->view instanceof \BenGee\Slim\TwigView)
+        if ($this->view instanceof \BenGee\Slim\TwigView)
         {
-          $app->view->addTemplatesDirectory($slimRootDir . DIRECTORY_SEPARATOR . 'templates');
+          $this->view->addTemplatesDirectory($slimRootDir . DIRECTORY_SEPARATOR . 'templates');
         }
         else
         {
-          $app->view->setTemplatesDirectory($slimRootDir . DIRECTORY_SEPARATOR . 'templates');
+          $this->view->setTemplatesDirectory($slimRootDir . DIRECTORY_SEPARATOR . 'templates');
         }
 
         // Load list of modules composing main application.
@@ -83,8 +83,8 @@ class SlimMod extends \Slim\Slim
           // Load the defined module's class file.
           require_once $slimModulesDir . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'module.php';
           // Reference module inside the application in the 'module' named array under the module's name as key.
-          $module = new $moduleClass($app, $moduleName, (trim($moduleName) == 'default' ? true : false));
-          $app->$modules[$moduleName] = $module;
+          $module = new $moduleClass($this, $moduleName, (trim($moduleName) == 'default' ? true : false));
+          $this->$modules[$moduleName] = $module;
         }
     }
 }
