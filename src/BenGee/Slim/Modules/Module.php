@@ -128,7 +128,7 @@ abstract class Module
         $route = '/' . ($this->isDefault() ? '(' . $route . ')' : $route);
         $app->get($route, function ($ctrl = 'index', $action = 'index', $params = null) use($app, $module)
         {
-            $slimModulesDir = $this->config('slim.dir.modules');
+            $slimModulesDir = $app->config('slim.dir.modules');
             // Set templates directory to the module's one if current view renderer is not Twig.
             if (!($app->view instanceof \BenGee\Slim\Twig\TwigView))
             {
