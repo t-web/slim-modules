@@ -160,7 +160,6 @@ abstract class Module
      */
     public function render($name, $data = array(), $namespace = false)
     {
-        $content = null;
         if (!is_string($name) || empty(trim($name))) throw new \ErrorException("View's name is invalid (null, empty or not a string) !");
         if ($this->app()->view instanceof \BenGee\Slim\Twig\TwigView)
         {
@@ -169,13 +168,8 @@ abstract class Module
                 if ($namespace !== false && !is_string($namespace)) throw new \ErrorException("Cannot render [" . $name . "] view because of invalid namespace (not a string) !");
                 $name = '@' . ($namespace === false ? $this->name() : trim($namespace)) . '/' . $name;
             }
-            $content = $this->app()->view->render($name, $data);
         }
-        else
-        {
-            $content = $this->app()->view->fetch($name, $data);
-        }
-        return $content;
+        return $this->app()->view->fetch($name, $data);
     }
     
     /**
