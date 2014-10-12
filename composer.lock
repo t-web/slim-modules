@@ -4,25 +4,25 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7dae7446b3e2f6d279a67dced449b765",
+    "hash": "7c8836fdf680534dd39c29ea44b83a40",
     "packages": [
         {
             "name": "bgillet/slim-twig",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bgillet/slim-twig.git",
-                "reference": "e68eb86c12d8ccb01b69665b1b4b24427a7dd139"
+                "reference": "cefcb879d9dc33740af32bd192c4fb28e7c5ae69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bgillet/slim-twig/zipball/e68eb86c12d8ccb01b69665b1b4b24427a7dd139",
-                "reference": "e68eb86c12d8ccb01b69665b1b4b24427a7dd139",
+                "url": "https://api.github.com/repos/bgillet/slim-twig/zipball/cefcb879d9dc33740af32bd192c4fb28e7c5ae69",
+                "reference": "cefcb879d9dc33740af32bd192c4fb28e7c5ae69",
                 "shasum": ""
             },
             "require": {
-                "slim/slim": ">=2.4.3",
-                "twig/twig": ">=1.16.0"
+                "slim/slim": "~2.4",
+                "twig/twig": "~1.16"
             },
             "type": "library",
             "autoload": {
@@ -41,20 +41,20 @@
                 }
             ],
             "description": "Another Slim view adapter for Twig template engine.",
-            "time": "2014-09-25 20:49:57"
+            "time": "2014-10-12 12:21:04"
         },
         {
             "name": "bgillet/slim-utils",
-            "version": "1.0.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bgillet/slim-utils.git",
-                "reference": "c8f936a9fa4b9d552bd0c204c51a8cb196280dc5"
+                "reference": "f9e3924ab1398338f6a5ef0203c4213e6d896893"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bgillet/slim-utils/zipball/c8f936a9fa4b9d552bd0c204c51a8cb196280dc5",
-                "reference": "c8f936a9fa4b9d552bd0c204c51a8cb196280dc5",
+                "url": "https://api.github.com/repos/bgillet/slim-utils/zipball/f9e3924ab1398338f6a5ef0203c4213e6d896893",
+                "reference": "f9e3924ab1398338f6a5ef0203c4213e6d896893",
                 "shasum": ""
             },
             "type": "library",
@@ -74,7 +74,7 @@
                 }
             ],
             "description": "Collection of utility classes for Slim based apps",
-            "time": "2014-09-25 20:07:36"
+            "time": "2014-10-12 12:01:43"
         },
         {
             "name": "slim/slim",
@@ -124,16 +124,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.16.0",
+            "version": "v1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "8ce37115802e257a984a82d38254884085060024"
+                "reference": "7c4c01dcf578523cfcddf383641a4f12790270ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/8ce37115802e257a984a82d38254884085060024",
-                "reference": "8ce37115802e257a984a82d38254884085060024",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/7c4c01dcf578523cfcddf383641a4f12790270ec",
+                "reference": "7c4c01dcf578523cfcddf383641a4f12790270ec",
                 "shasum": ""
             },
             "require": {
@@ -177,7 +177,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-07-05 12:19:05"
+            "time": "2014-10-10 14:09:53"
         }
     ],
     "packages-dev": [],

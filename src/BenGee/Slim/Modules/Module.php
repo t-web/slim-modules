@@ -4,8 +4,6 @@
  * SlimMod - Library to code modules based Slim apps development.
  *
  * @author Benjamin GILLET <bgillet@hotmail.fr>
- * @package \BenGee\Slim\Modules
- * @version 1.0.1
  *
  * MIT LICENSE
  *
@@ -31,13 +29,12 @@
 
 namespace BenGee\Slim\Modules;
 
+use \BenGee\Slim\Utils\StringUtils;
+
 /**
  * Abstract implementation of a Slim module.
  * Any module in modules base Slim apps must inherit this class.
- * @package BenGee\Slim\Modules
  * @author Benjamin GILLET <bgillet@hotmail.fr>
- * @version 1.0.1
- * @since 1.0.0
  */
 abstract class Module
 {
@@ -104,11 +101,10 @@ abstract class Module
         $this->_app = $app;
         if (empty($name) || !is_string($name)) throw new \ErrorException("Module's name cannot be null or empty !");
         $this->_name = $name;
-        $slimModulesDir = $app->config('slim.dir.modules');
         // Append module's templates path to the renderer if it is Twig
         if ($app->view instanceof \BenGee\Slim\Twig\TwigView) 
         {
-            $app->view->addTemplatesDirectory($slimModulesDir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'views', $name);
+            $app->view->addTemplatesDirectory($this->getDirectory() . DIRECTORY_SEPARATOR . 'views', $name);
         }
         // Register module's hooks
         $this->registerHooks();
@@ -117,8 +113,11 @@ abstract class Module
     }
 
     /**
-     * Method to override to register routes handled by the module.
-     * By default, handled routes follow the given pattern 'GET /module_name[/module_ctrl[/action[/param1/param2/...]]]'.
+     * Override this method to register routes handled by the module.
+     * By default, handled routes follow the given pattern : 
+     * 'GET /module_name[/module_ctrl[/action[/param1/param2/...]]]'
+     * If module is set as the default one, it also manages '/' request and its
+     * route is named 'home' otherwise it is named with module's name.
      */
     protected function registerRoutes() 
     {
@@ -128,21 +127,20 @@ abstract class Module
         $route = '/' . ($this->isDefault() ? '(' . $route . ')' : $route);
         $app->get($route, function ($ctrl = 'index', $action = 'index', $params = null) use($app, $module)
         {
-            $slimModulesDir = $app->config('slim.dir.modules');
             // Set templates directory to the module's one if current view renderer is not Twig.
             if (!($app->view instanceof \BenGee\Slim\Twig\TwigView))
             {
-                $app->view->setTemplatesDirectory($slimModulesDir . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'views', $name);
+                $app->view->setTemplatesDirectory($this->getDirectory() . DIRECTORY_SEPARATOR . 'views', $this->name());
             }
             // Load controller class file.
             $ctrl_name = (!empty($ctrl) && trim($ctrl) != '' ? \BenGee\Slim\Utils\StringUtils::camelize($ctrl, true) : 'Index') . 'Controller';
-            require_once($slimModulesDir . DIRECTORY_SEPARATOR .$module->name() . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $ctrl_name . '.php');
+            require_once($this->getDirectory() . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $ctrl_name . '.php');
             // Create an instance of the controller.
             $ctrl_instance = new $ctrl_name($module);
             // Call required action.
             $action_name = ($action != null && trim($action) != '' ? \BenGee\Slim\Utils\StringUtils::camelize($action) : 'index') . 'Action';
             echo ($params != null ? $ctrl_instance->$action_name($params) : $ctrl_instance->$action_name());
-        });
+        })->name($this->isDefault() ? 'home' : $this->name());
     }
 
     /**
@@ -162,12 +160,51 @@ abstract class Module
      */
     public function render($name, $data = array(), $namespace = false)
     {
+        $content = null;
         if (!is_string($name) || empty(trim($name))) throw new \ErrorException("View's name is invalid (null, empty or not a string) !");
-        if (!strstr($name, '@')) 
+        if ($this->app()->view instanceof \BenGee\Slim\Twig\TwigView)
         {
-            if ($namespace !== false && !is_string($namespace)) throw new \ErrorException("Cannot render [" . $name . "] view because of invalid namespace (not a string) !");
-            $name = '@' . ($namespace === false ? $this->name() : trim($namespace)) . '/' . $name;
+            if (!strstr($name, '@')) 
+            {
+                if ($namespace !== false && !is_string($namespace)) throw new \ErrorException("Cannot render [" . $name . "] view because of invalid namespace (not a string) !");
+                $name = '@' . ($namespace === false ? $this->name() : trim($namespace)) . '/' . $name;
+            }
+            $content = $this->app()->view->render($name, $data);
         }
-        return $this->app()->view->render($name, $data);
+        else
+        {
+            $content = $this->app()->view->fetch($name, $data);
+        }
+        return $content;
+    }
+    
+    /**
+     * Return directory of the module class definition file.
+     * @return string Directory where is stored the module definition file.
+     */
+    public function getDirectory()
+    {
+        $reflector = new \ReflectionClass(get_class($this));
+        return dirname($reflector->getFileName());
+    }
+    
+    /**
+     * Return the full (including directory) module definition file name.
+     * @return string Module definition file path.
+     */
+    public function getFile()
+    {
+        $reflector = new \ReflectionClass(get_class($this));
+        return $reflector->getFileName();
+    }
+    
+    /**
+     * Return the full module class name.
+     * @return string Fully qualified module class name.
+     */
+    public function getClassName()
+    {
+        $reflector = new \ReflectionClass(get_class($this));
+        return $reflector->getName();
     }
 }

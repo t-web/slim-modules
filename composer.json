@@ -10,8 +10,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "bgillet/slim-utils": "*",
-        "bgillet/slim-twig": "*"
+        "bgillet/slim-utils": "~1.2",
+        "bgillet/slim-twig": "~1.0"
     },
     "autoload": {
         "psr-4": {

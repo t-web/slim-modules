@@ -4,8 +4,6 @@
  * SlimMod - Library for modules based Slim apps development.
  *
  * @author Benjamin GILLET <bgillet@hotmail.fr>
- * @package \BenGee\Slim\Modules
- * @version 1.0.1
  *
  * MIT LICENSE
  *
@@ -35,10 +33,7 @@ namespace BenGee\Slim\Modules;
 /**
  * Abstract Slim module's controller.
  * Any controller in modules based Slim apps must inherit this class.
- * @package BenGee\Slim\Modules
  * @author Benjamin GILLET <bgillet@hotmail.fr>
- * @version 1.0.1
- * @since 1.0.0
  */
 abstract class Controller 
 {
